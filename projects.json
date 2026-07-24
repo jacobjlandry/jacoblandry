@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Exodus Protocol",
+    "description": "Matrix-inspired browser idle game. Build your fleet, rescue crew from the Cradle, and survive the reboot.",
+    "tags": ["React", "Vite", "Game"],
+    "url": "https://exodusprotocol.jacoblandry.com",
+    "featured": true
+  },
+  {
+    "name": "Darknet Ops",
+    "description": "Browser-based hacker idle game with a dashboard aesthetic and persistent progression.",
+    "tags": ["React", "Vite", "Game"],
+    "url": "https://darknetops.jacoblandry.com",
+    "featured": true
+  },
+  {
+    "name": "VISAMP",
+    "description": "Winamp-style audio visualizer for the web. Multiple visualizations, color schemes, mic and system audio capture.",
+    "tags": ["Vanilla JS", "Web Audio API", "PWA"],
+    "url": "https://visamp.jacoblandry.com",
+    "featured": true
+  }
+]
+

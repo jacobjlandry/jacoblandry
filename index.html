@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Jacob Landry — Senior Software Engineer. Laravel, React, PHP. Builder of things that ship." />
+  <title>Jacob Landry</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">[jacoblandry]</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#resume">Resume</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-title">Senior Software Engineer</div>
+    <h1 class="hero-name">Jacob Landry<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="hero-bio">
+      <strong>17 years</strong> building software that ships.
+      Laravel and PHP by trade, React for fun, games and tools on the side.
+      I care about clean architecture, honest code, and work that actually makes it to production.
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="https://github.com/jacobjlandry" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn" href="https://www.linkedin.com/in/landryjacob" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://substack.com/@halexmorph" target="_blank" rel="noopener">Substack ↗</a>
+      <a class="btn" href="https://bsky.app/profile/jacoblandry.bsky.social" target="_blank" rel="noopener">Bluesky ↗</a>
+      <a class="btn" href="https://www.instagram.com/landry.jacob" target="_blank" rel="noopener">Instagram ↗</a>
+      <a class="btn" href="https://hackernoon.com/u/jacoblandry" target="_blank" rel="noopener">Hackernoon ↗</a>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <div class="card-grid" id="project-grid">
+      <!-- populated by main.js -->
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section id="writing">
+    <div class="section-label">Writing</div>
+    <div class="article-list" id="article-list">
+      <!-- populated by main.js -->
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-block">
+        <h3>Background</h3>
+        <p>
+          I'm a <strong>Senior Software Engineer</strong> with 17 years of professional experience,
+          currently building camp management software at iCampPro on a Laravel/PHP/TypeScript stack.
+        </p>
+        <p>
+          Most of my career has been in PHP and Laravel, with detours into Java and a growing
+          appreciation for React on the frontend. I believe in working software over impressive
+          architecture, and I tend to ship.
+        </p>
+        <p>
+          Outside of the day job I build browser-based games, write fiction and tech essays,
+          play guitar, run D&D campaigns, and spend too much time thinking about Star Wars.
+        </p>
+      </div>
+      <div class="about-block">
+        <h3>Stack</h3>
+        <ul class="stack-list">
+          <li>PHP</li>
+          <li>Laravel</li>
+          <li>TypeScript</li>
+          <li>React</li>
+          <li>Vite</li>
+          <li>JavaScript</li>
+          <li>MySQL</li>
+          <li>Java</li>
+          <li>HTML/CSS</li>
+          <li>Git</li>
+          <li>Linux</li>
+          <li>REST APIs</li>
+        </ul>
+        <br />
+        <h3>Currently Building</h3>
+        <p>
+          <strong>Exodus Protocol</strong> — a Matrix-inspired browser idle game in React.
+          Fleet management, crew rescue, anomaly mechanics, and a reboot system that keeps
+          each run feeling earned.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUME -->
+  <section id="resume">
+    <div class="section-label">Resume</div>
+    <div class="resume-inner">
+      <div class="resume-text">
+        <h2>Jacob Landry</h2>
+        <p>Senior Software Engineer &middot; 17 years experience &middot; Laravel, PHP, React</p>
+      </div>
+      <a class="btn btn-primary" href="/resume.pdf" target="_blank" rel="noopener">Download PDF ↗</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">
+      &copy; <span id="year"></span> Jacob Landry &mdash;
+      <a href="https://github.com/jacobjlandry" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="footer-claude">Designed with <span>Claude ◆</span></div>
+    <a href="#hero" class="back-top">↑ back to top</a>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="main.js"></script>
+
+</body>
+</html>
+
