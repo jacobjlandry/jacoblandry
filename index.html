@@ -23,7 +23,24 @@
   --transition: 180ms ease;
 }
 
-/* Matrix (default) */
+/* Default Theme */
+body.theme-default {
+  --bg: #0a0f0b;
+  --bg-raised: #0f1712;
+  --bg-card: #101a13;
+  --border: #1d3324;
+  --text: #d7e9dc;
+  --text-dim: #7fa588;
+  --accent: #39ff6a;
+  --highlight: #ffd9a0;
+  --accent-dim: #1f8f45;
+  --link: #4dd8e8;
+  --glow: 0 0 18px rgba(57, 255, 106, 0.25);
+  --glow-soft: 0 0 8px rgba(57, 255, 106, 0.35);
+  --scan-opacity: 0;
+}
+
+/* Matrix */
 body.theme-matrix {
   --bg: #0a0f0b;
   --bg-raised: #0f1712;
@@ -32,6 +49,7 @@ body.theme-matrix {
   --text: #d7e9dc;
   --text-dim: #7fa588;
   --accent: #39ff6a;
+  --highlight: #39ff6a;
   --accent-dim: #1f8f45;
   --link: #4dd8e8;
   --glow: 0 0 18px rgba(57, 255, 106, 0.25);
@@ -48,6 +66,7 @@ body.theme-github {
   --text: #e6edf3;
   --text-dim: #8b98a5;
   --accent: #58a6ff;
+  --highlight: #58a6ff;
   --accent-dim: #2f6feb;
   --link: #79c0ff;
   --glow: 0 0 18px rgba(88, 166, 255, 0.18);
@@ -64,6 +83,7 @@ body.theme-cyber {
   --text: #f0e6f5;
   --text-dim: #a084ad;
   --accent: #ff2ec4;
+  --highlight: #ff2ec4;
   --accent-dim: #b0208a;
   --link: #22d3ee;
   --glow: 0 0 20px rgba(255, 46, 196, 0.25);
@@ -80,6 +100,7 @@ body.theme-amber {
   --text: #ffd9a0;
   --text-dim: #b5854a;
   --accent: #ffb347;
+  --accent: ##ffb347;
   --accent-dim: #c47f1f;
   --link: #ffcb73;
   --glow: 0 0 22px rgba(255, 179, 71, 0.3);
@@ -180,8 +201,8 @@ section {
   transform: translateY(-1px);
 }
 .btn-primary {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--highlight);
+  color: var(--highlight);
 }
 .btn-primary:hover { box-shadow: var(--glow); }
 
@@ -412,6 +433,7 @@ nav {
 }
 .project-card a {
   font-size: 13px;
+  color: var(--highlight);
 }
 
 /* ==========================================================================
@@ -446,7 +468,7 @@ nav {
 }
 .article-row a::before {
   content: '▍';
-  color: var(--accent);
+  color: var(--highlight);
 }
 .article-date {
   color: var(--text-dim);
@@ -634,7 +656,7 @@ footer {
 
   </style>
 </head>
-<body class="theme-matrix">
+<body class="theme-default">
 
   <!-- BOOT SEQUENCE -->
   <div id="boot-screen" aria-hidden="true">
@@ -652,6 +674,7 @@ footer {
         <li><a href="#resume">Resume</a></li>
       </ul>
       <div class="theme-switcher" role="group" aria-label="Theme selector">
+        <button class="theme-dot" data-theme="default" aria-label="Default theme"><span class="dot"></span>Default</button>
         <button class="theme-dot" data-theme="matrix" aria-label="Matrix theme"><span class="dot"></span>Matrix</button>
         <button class="theme-dot" data-theme="github" aria-label="GitHub theme"><span class="dot"></span>GitHub</button>
         <button class="theme-dot" data-theme="cyber" aria-label="Cyberpunk theme"><span class="dot"></span>Cyberpunk</button>
@@ -668,7 +691,7 @@ footer {
     <div class="hero-title">Senior Software Engineer</div>
     <h1 class="hero-name">Jacob Landry<span class="cursor" aria-hidden="true"></span></h1>
     <p class="hero-bio">
-      <strong>17 years</strong> building software that ships.
+      <strong style="color: var(--highlight);">17 years</strong> building software that ships.
       Laravel and PHP by trade, React for fun, games and tools on the side.
       I care about clean architecture, honest code, and work that actually makes it to production.
     </p>
@@ -702,7 +725,7 @@ footer {
       <div class="about-block">
         <h3>Background</h3>
         <p>
-          I'm a <strong>Senior Software Engineer</strong> with 17 years of professional experience,
+          I'm a <strong style="color: var(--highlight);">Senior Software Engineer</strong> with 17 years of professional experience,
           currently building camp management software at iCampPro on a Laravel/PHP/TypeScript stack.
         </p>
         <p>
@@ -733,7 +756,7 @@ footer {
         </ul>
         <h3>Currently Building</h3>
         <p>
-          <strong>Exodus Protocol</strong> — a Matrix-inspired browser idle game in React.
+          <strong style="color: var(--highlight);">Exodus Protocol</strong> — a Matrix-inspired browser idle game in React.
           Fleet management, crew rescue, anomaly mechanics, and a reboot system that keeps
           each run feeling earned.
         </p>
@@ -756,8 +779,7 @@ footer {
   <!-- FOOTER -->
   <footer>
     <div class="footer-copy">
-      &copy; <span id="year"></span> Jacob Landry &mdash;
-      <a href="https://github.com/jacobjlandry" target="_blank" rel="noopener">GitHub</a>
+      &copy; <span id="year"></span> Jacob Landry
     </div>
     <button class="back-top" id="back-top">↑ back to top</button>
   </footer>
@@ -806,7 +828,7 @@ footer {
     { title: 'Why I Still Bet on PHP (in 2024)', date: 'Apr 15, 2024', url: '#' }
   ];
 
-  const THEMES = ['matrix', 'github', 'cyber', 'amber'];
+  const THEMES = ['default', 'matrix', 'github', 'cyber', 'amber'];
   const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 
   /* ------------------------------------------------------------------ */
@@ -842,6 +864,7 @@ footer {
   // Mirrors the --bg value for each theme in the CSS above. Kept as a plain
   // JS map because the theme-color meta tag can't read CSS custom properties.
   const THEME_BG_COLORS = {
+    default: '#0a0f0b',
     matrix: '#0a0f0b',
     github: '#0d1117',
     cyber: '#060008',
@@ -874,7 +897,7 @@ footer {
 
   function initTheme() {
     const saved = localStorage.getItem('jacobos-theme');
-    const startTheme = (saved && THEMES.includes(saved) && (saved !== 'amber' || isAmberUnlocked())) ? saved : 'matrix';
+    const startTheme = (saved && THEMES.includes(saved) && (saved !== 'amber' || isAmberUnlocked())) ? saved : 'default';
     applyTheme(startTheme, { persist: false });
 
     document.querySelectorAll('.theme-dot').forEach(btn => {
@@ -977,7 +1000,7 @@ footer {
       'projects      jump to Projects',
       'writing       jump to Writing',
       'resume        jump to Resume',
-      'theme <name>  matrix | github | cyber | amber',
+      'theme <name>  default | matrix | github | cyber | amber',
       'stats         a few numbers',
       'whoami        who you are talking to',
       'coffee        ☕',
@@ -1017,7 +1040,7 @@ footer {
         applyTheme(name);
         printLine(`Theme set to ${name}.`, 'out');
       } else {
-        printLine('Usage: theme matrix | github | cyber | amber', 'out');
+        printLine('Usage: theme default | matrix | github | cyber | amber', 'out');
       }
       return;
     }
@@ -1042,8 +1065,8 @@ footer {
       if (isFormField) return;
 
       if (!terminalState.open) {
-        // Open on any printable character typed anywhere on the page
-        if (e.key.length === 1 && /[a-z0-9]/i.test(e.key)) {
+        // Open on any printable character typed anywhere on the page except for those in the konami code
+        if (e.key.length === 1 && /[c-z0-9]/i.test(e.key)) {
           openTerminal();
           terminalState.buffer = e.key;
           updateBuffer();
@@ -1086,6 +1109,7 @@ footer {
       const matches = e.key === expected || e.key.toLowerCase() === expected;
       if (matches) {
         progress++;
+        alert(progress);
         if (progress === KONAMI.length) {
           progress = 0;
           if (!isAmberUnlocked()) {
@@ -1099,6 +1123,7 @@ footer {
         }
       } else {
         progress = (e.key === KONAMI[0]) ? 1 : 0;
+        alert(progress);
       }
     });
   }
