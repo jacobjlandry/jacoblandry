@@ -8,7 +8,7 @@
   <title>Jacob Landry</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
 /* ==========================================================================
    JacobOS — theme tokens
@@ -75,7 +75,7 @@ body.theme-github {
 }
 
 /* Cyber */
-body.theme-cyber {
+body.theme-cyberpunk {
   --bg: #060008;
   --bg-raised: #0d0512;
   --bg-card: #0f0616;
@@ -92,7 +92,7 @@ body.theme-cyber {
 }
 
 /* Amber CRT — hidden, Konami-unlocked */
-body.theme-amber {
+body.theme-crt {
   --bg: #120b02;
   --bg-raised: #1a1104;
   --bg-card: #1d1305;
@@ -105,7 +105,11 @@ body.theme-amber {
   --link: #ffcb73;
   --glow: 0 0 22px rgba(255, 179, 71, 0.3);
   --glow-soft: 0 0 10px rgba(255, 179, 71, 0.4);
-  --scan-opacity: 0.06;
+  --scan-opacity: 0.08;
+  --static-opacity: 0.05;
+  --font-mono: 'VT323', 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 20px;
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================
@@ -132,9 +136,10 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
-/* CRT scanlines + flicker, only visible in amber theme via --scan-opacity */
+/* CRT scanlines + flicker, only visible in crt theme via --scan-opacity */
 body::after {
   content: '';
+  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9998;
@@ -148,6 +153,27 @@ body::after {
   opacity: var(--scan-opacity);
   animation: flicker 6s infinite;
 }
+
+/* CRT static noise, only visible in crt theme via --static-opacity.
+   Intentionally NOT animated — an animated SVG filter here was found to
+   trigger a fixed-position/compositing bug on iOS Safari that pinned
+   #terminal to the bottom of the document instead of the viewport. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: var(--static-opacity, 0);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+}
+
+/* Note: flicker is handled by the scanline layer's own opacity animation
+   above — a filter-based whole-screen flicker was tried here but filter
+   on body creates a new containing block for fixed-position descendants
+   (like #terminal), which broke its positioning. Intentionally omitted. */
 
 @keyframes flicker {
   0%, 96%, 100% { opacity: var(--scan-opacity); }
@@ -257,7 +283,6 @@ nav {
 .nav-logo {
   font-weight: 700;
   color: var(--accent);
-  margin-right: auto;
 }
 .nav-menu {
   display: flex;
@@ -571,6 +596,7 @@ footer {
   border-radius: var(--radius);
   box-shadow: var(--glow), 0 12px 40px rgba(0,0,0,0.5);
   z-index: 500;
+  will-change: transform;
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -620,6 +646,64 @@ footer {
 }
 
 /* ==========================================================================
+   Konami debug (TEMPORARY — remove once the sequence is confirmed working)
+   ========================================================================== */
+
+.nav-logo-group {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+#konami-debug {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+#konami-debug.active {
+  opacity: 1;
+}
+#konami-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--highlight);
+  opacity: 0;
+  flex-shrink: 0;
+}
+#konami-dot.active {
+  animation: konami-pulse 1s ease-in-out infinite;
+}
+@keyframes konami-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 8px var(--highlight); }
+}
+
+/* ==========================================================================
+   Amber theme overrides — dashed borders, period-appropriate
+   ========================================================================== */
+
+body.theme-crt .btn,
+body.theme-crt .project-card,
+body.theme-crt .stack-list li,
+body.theme-crt .article-list,
+body.theme-crt .article-row,
+body.theme-crt .resume-inner,
+body.theme-crt nav,
+body.theme-crt footer,
+body.theme-crt #terminal,
+body.theme-crt .terminal-header,
+body.theme-crt .hero-hint kbd {
+  border-style: dashed;
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 
@@ -665,7 +749,14 @@ footer {
 
   <!-- NAV -->
   <nav>
-    <a href="#hero" class="nav-logo">[jacoblandry]</a>
+    <div class="nav-logo-group">
+      <a href="#hero" class="nav-logo">[jacoblandry]</a>
+      <!-- KONAMI DEBUG (TEMPORARY — remove once the sequence is confirmed working) -->
+      <div id="konami-debug">
+        <span id="konami-dot"></span>
+        <span id="konami-debug-text">Konami: 0/10</span>
+      </div>
+    </div>
     <div class="nav-menu">
       <ul class="nav-links">
         <li><a href="#projects">Projects</a></li>
@@ -677,7 +768,7 @@ footer {
         <button class="theme-dot" data-theme="default" aria-label="Default theme"><span class="dot"></span>Default</button>
         <button class="theme-dot" data-theme="matrix" aria-label="Matrix theme"><span class="dot"></span>Matrix</button>
         <button class="theme-dot" data-theme="github" aria-label="GitHub theme"><span class="dot"></span>GitHub</button>
-        <button class="theme-dot" data-theme="cyber" aria-label="Cyberpunk theme"><span class="dot"></span>Cyberpunk</button>
+        <button class="theme-dot" data-theme="cyberpunk" aria-label="Cyberpunk theme"><span class="dot"></span>Cyberpunk</button>
       </div>
     </div>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -828,7 +919,7 @@ footer {
     { title: 'Why I Still Bet on PHP (in 2024)', date: 'Apr 15, 2024', url: '#' }
   ];
 
-  const THEMES = ['default', 'matrix', 'github', 'cyber', 'amber'];
+  const THEMES = ['default', 'matrix', 'github', 'cyberpunk', 'crt'];
   const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 
   /* ------------------------------------------------------------------ */
@@ -867,8 +958,8 @@ footer {
     default: '#0a0f0b',
     matrix: '#0a0f0b',
     github: '#0d1117',
-    cyber: '#060008',
-    amber: '#120b02'
+    cyberpunk: '#060008',
+    crt: '#120b02'
   };
 
   function updateThemeColorMeta(name) {
@@ -878,7 +969,7 @@ footer {
 
   function applyTheme(name, { persist = true } = {}) {
     if (!THEMES.includes(name)) return;
-    if (name === 'amber' && !isAmberUnlocked()) return;
+    if (name === 'crt' && !isAmberUnlocked()) return;
     document.body.className = `theme-${name}`;
     document.querySelectorAll('.theme-dot').forEach(btn => {
       btn.setAttribute('data-active', String(btn.dataset.theme === name));
@@ -888,16 +979,16 @@ footer {
   }
 
   function isAmberUnlocked() {
-    return localStorage.getItem('jacobos-amber-unlocked') === 'true';
+    return localStorage.getItem('jacobos-crt-unlocked') === 'true';
   }
 
   function unlockAmber() {
-    localStorage.setItem('jacobos-amber-unlocked', 'true');
+    localStorage.setItem('jacobos-crt-unlocked', 'true');
   }
 
   function initTheme() {
     const saved = localStorage.getItem('jacobos-theme');
-    const startTheme = (saved && THEMES.includes(saved) && (saved !== 'amber' || isAmberUnlocked())) ? saved : 'default';
+    const startTheme = (saved && THEMES.includes(saved) && (saved !== 'crt' || isAmberUnlocked())) ? saved : 'default';
     applyTheme(startTheme, { persist: false });
 
     document.querySelectorAll('.theme-dot').forEach(btn => {
@@ -1000,7 +1091,7 @@ footer {
       'projects      jump to Projects',
       'writing       jump to Writing',
       'resume        jump to Resume',
-      'theme <name>  default | matrix | github | cyber | amber',
+      'theme <name>  change the theme',
       'stats         a few numbers',
       'whoami        who you are talking to',
       'coffee        ☕',
@@ -1031,16 +1122,17 @@ footer {
     const [cmd, ...args] = input.toLowerCase().split(/\s+/);
 
     if (cmd === 'theme') {
-      const name = args[0];
-      if (name === 'amber' && !isAmberUnlocked()) {
+      const rawName = args[0];
+      const name = rawName === 'crt' ? 'crt' : rawName;
+      if (name === 'crt' && !isAmberUnlocked()) {
         printLine('Theme locked. Find the Konami code.', 'out');
         return;
       }
       if (THEMES.includes(name)) {
         applyTheme(name);
-        printLine(`Theme set to ${name}.`, 'out');
+        printLine(`Theme set to ${name === 'crt' ? 'crt' : name}.`, 'out');
       } else {
-        printLine('Usage: theme default | matrix | github | cyber | amber', 'out');
+        printLine('Usage: theme default | matrix | github | cyberpunk | crt', 'out');
       }
       return;
     }
@@ -1104,26 +1196,44 @@ footer {
 
   function initKonami() {
     let progress = 0;
+    const dot = document.getElementById('konami-dot');
+    const debugText = document.getElementById('konami-debug-text');
+    const debugContainer = document.getElementById('konami-debug');
+
+    function updateDebug() {
+      if (debugText) debugText.textContent = `Konami: ${progress}/${KONAMI.length}`;
+      if (dot) dot.classList.toggle('active', progress > 0);
+      if (debugContainer) debugContainer.classList.toggle('active', progress > 0);
+    }
+
     document.addEventListener('keydown', (e) => {
+      if (e.repeat) return; // ignore auto-repeat from a held key
+
       const expected = KONAMI[progress];
       const matches = e.key === expected || e.key.toLowerCase() === expected;
+
       if (matches) {
         progress++;
-        alert(progress);
+        updateDebug();
         if (progress === KONAMI.length) {
           progress = 0;
+          updateDebug();
           if (!isAmberUnlocked()) {
             unlockAmber();
             openTerminal();
             printLine('Access granted...', 'out');
             printLine('Loading legacy interface...', 'out');
-            printLine('Amber Terminal unlocked.', 'out');
-            applyTheme('amber');
+            printLine('CRT Terminal unlocked — circa 1983.', 'out');
+            applyTheme('crt');
+          }
+          else {
+            openTerminal();
+            printLine('CRT Terminal already unlocked.');
           }
         }
       } else {
         progress = (e.key === KONAMI[0]) ? 1 : 0;
-        alert(progress);
+        updateDebug();
       }
     });
   }
