@@ -1122,8 +1122,7 @@ body.theme-crt .hero-hint kbd {
     const [cmd, ...args] = input.toLowerCase().split(/\s+/);
 
     if (cmd === 'theme') {
-      const rawName = args[0];
-      const name = rawName === 'crt' ? 'crt' : rawName;
+      const name = args[0];
       if (name === 'crt' && !isAmberUnlocked()) {
         printLine('Theme locked. Find the Konami code.', 'out');
         return;
