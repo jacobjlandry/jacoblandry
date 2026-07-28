@@ -139,7 +139,6 @@ body {
 /* CRT scanlines + flicker, only visible in crt theme via --scan-opacity */
 body::after {
   content: '';
-  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9998;
@@ -160,7 +159,6 @@ body::after {
    #terminal to the bottom of the document instead of the viewport. */
 body::before {
   content: '';
-  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9997;
